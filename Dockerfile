@@ -23,14 +23,13 @@ RUN apt-get install -y percona-xtradb-cluster-56 qpress xtrabackup
 RUN apt-get install -y python-software-properties vim wget curl netcat
 #RUN apt-get install -y percona-xtradb-cluster-56 percona-xtrabackup percona-toolkit percona-nagios-plugins netcat socat procps
 
-ENV MYSQL_ROOT_USER root
-ENV MYSQL_ROOT_PASSWORD pass
+ENV MYSQL_ROOT_PASSWORD 123456
 ENV MYSQL_PORT 3306
 ENV CLUSTER_NAME percona-cluster
-#ENV NODE_NAME node-x
 ENV REP_USER rep
-ENV REP_PASS pass
+ENV REP_PASS 123456
 ENV BOOTSTRAP_CLUSTER 0
+#ENV NODE_NAME node-x
 #ENV CLUSTER_IPS 
 #ENV CLUSTER_SUBNET 
 #ENV NODE_IP 
@@ -38,10 +37,10 @@ ENV BOOTSTRAP_CLUSTER 0
 ADD ./my.cnf /etc/mysql/my.cnf
 
 # Init embedded database
-#ADD ./install.sh /install.sh
-#RUN chmod +x /install.sh
+ADD ./install.sh /install.sh
+RUN chmod +x /install.sh
 #RUN /install.sh
-#RUN /install.sh && rm /install.sh
+RUN /install.sh && rm /install.sh
 
 ADD ./init.sh /mysql-init.sh
 ADD ./run.sh /run.sh
@@ -53,7 +52,7 @@ RUN chmod +x /run.sh
 VOLUME ["/var/lib/mysql"]
 
 # Define working directory.
-WORKDIR /var/lib/mysql
+# WORKDIR /var/lib/mysql
 
 # Define default command.
 CMD ["/run.sh"]

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start MySQL to create Percona XtraDB Cluster UDFs (User Defined Function) from Percona Toolkit
-/usr/bin/mysqld_safe > /dev/null 2>&1 &
+/usr/bin/mysqld_safe --no-defaults > /dev/null 2>&1 &
 set +e
 RET=1
 while [ $RET -ne 0 ]; do
