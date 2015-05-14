@@ -1,6 +1,6 @@
 #!/bin/sh
 
-`/export_env.sh`
+`/export_env.py`
 # If node IP is not defined as env variable, get it from system
 if [ -z "$NODE_IP" ]; then
 	NODE_IP=$(/bin/ip -4 a show dev eth0 scope global | grep inet | awk '{split($2,a,"/"); print a[1]}')
