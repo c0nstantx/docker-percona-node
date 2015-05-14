@@ -36,10 +36,12 @@ ENV BOOTSTRAP_CLUSTER 0
 
 ADD ./my.cnf /etc/mysql/my.cnf
 
+ADD ./export_env.py /export_env.py
+RUN chmod +x /export_env.py
+
 # Init embedded database
 ADD ./install.sh /install.sh
 RUN chmod +x /install.sh
-#RUN /install.sh
 RUN /install.sh && rm /install.sh
 
 ADD ./init.sh /mysql-init.sh
