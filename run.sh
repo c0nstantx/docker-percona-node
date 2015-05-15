@@ -9,20 +9,22 @@ WSREP_OPTIONS="--wsrep_node_address=$NODE_IP --wsrep_sst_receive_address=$NODE_I
 
 OPTIONS="--port=$MYSQL_PORT"
 
+if [ ! -d ${DATA_DIR:-/var/lib/mysql}/mysql ]; then
+  mysql_install_db > /dev/null 2>&1
+  if [ $BOOTSTRAP_CLUSTER -eq 1 ]; then
+      /mysql-init.sh
+  fi
+else
+  chown -R mysql:mysql ${DATA_DIR:-/var/lib/mysql}
+fi
+
 if [ $BOOTSTRAP_CLUSTER -eq 1 ]; then
   echo "Bootstraping Cluster..."
   OPTIONS="$OPTIONS --wsrep-new-cluster --wsrep_cluster_address=gcomm://"
-  /mysql-init.sh
 else
     if [ ! -z "$CLUSTER_IPS" ]; then
        OPTIONS="$OPTIONS  --wsrep_cluster_address=gcomm://$CLUSTER_IPS"
     fi
 fi
 
-if [ ! -d ${DATA_DIR:-/var/lib/mysql}/mysql ]; then
-  mysql_install_db > /dev/null 2>&1
-else
-  chown -R mysql:mysql ${DATA_DIR:-/var/lib/mysql}
-fi
-
-mysqld_safe $OPTIONS $WSREP_OPTIONS
+echo "mysqld_safe $OPTIONS $WSREP_OPTIONS"
