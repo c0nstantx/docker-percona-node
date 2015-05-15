@@ -27,4 +27,4 @@ else
     fi
 fi
 
-echo "mysqld_safe $OPTIONS $WSREP_OPTIONS"
+mysqld_safe $OPTIONS $WSREP_OPTIONS
